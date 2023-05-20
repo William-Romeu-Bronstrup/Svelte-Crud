@@ -1,7 +1,8 @@
 <script lang="ts">
-  import type { PageData } from "./$types"
+  import type { PageData, ActionData } from "./$types"
 
   export let data: PageData
+  export let form: ActionData
 
   $: ({ article } = data)
 </script>
@@ -12,7 +13,20 @@
     method="post"
     class={`flex flex-col text-[--title-white]`}
   >
-    <label for="title" class={`mb-1`}>Editing: {article.title}</label>
+    {#if form?.missing}
+      <div class={`flex items-baseline justify-between mb-8`}>
+        <h2 class={`text-[--title-white] text-2xl font-bold`}>
+          Update Article
+        </h2>
+        <p class={`text-red-400`}>* Please, complete the fields!</p>
+      </div>
+    {:else}
+      <h2 class={`text-[--title-white] text-2xl font-bold mb-8`}>
+        New Article
+      </h2>
+    {/if}
+
+    <label for="title" class={`mb-1`}>Title</label>
     <input
       type="text"
       name="title"

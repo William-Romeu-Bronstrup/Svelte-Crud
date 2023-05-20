@@ -1,4 +1,4 @@
-import { prisma } from "$lib/server/prisma"
+//import { prisma } from "$lib/server/prisma"
 import { error, fail } from "@sveltejs/kit"
 import type { PageServerLoad, Actions } from "./$types"
 
@@ -16,8 +16,8 @@ export const actions: Actions = {
     }
 
     if (!title || !content) {
-      throw error(500, {
-        message: "Please fill all the blanks!",
+      return fail(400, {
+        missing: true,
       })
     }
 
@@ -30,11 +30,7 @@ export const actions: Actions = {
       })
     } catch (err) {
       console.log(err)
-      return fail(500, { message: "Could not create the article." })
-    }
-
-    return {
-      status: 201,
+      throw error(500, { message: "Unable to create article" })
     }
   },
 
@@ -56,10 +52,6 @@ export const actions: Actions = {
       return fail(500, {
         message: "Something went wrong deleting your article",
       })
-    }
-
-    return {
-      status: 200,
     }
   },
 }

@@ -1,13 +1,35 @@
 <script lang="ts">
-  import type { PageData } from "./$types"
+  import type { ActionData, PageData } from "./$types"
 
   export let data: PageData
+  export let form: ActionData
+
+  let value: string = ""
 
   $: ({ articles } = data)
 </script>
 
 <div class={`text-[--title-white]`}>
   <h2 class="text-2xl font-bold mb-8">Articles:</h2>
+
+  <div class={`flex flex-col gap-2 mb-5`}>
+    <label for="search" class={`font-semibold`}>Search</label>
+    <div class={`flex gap-2`}>
+      <input
+        type="text"
+        id="search"
+        bind:value
+        class={`outline-none border-2 border-[--border-normal] focus:border-blue-500 rounded-md bg-transparent p-2 flex-1`}
+      />
+      <a
+        href="/searchArticle/{value}"
+        role="button"
+        class={`p-2 bg-[--button-normal] rounded-md font-semibold transition delay-75 hover:bg-[--button-hover]`}
+      >
+        Search
+      </a>
+    </div>
+  </div>
 
   {#each articles as article}
     <article class="bg-[#171E27] rounded-sm mb-3">
@@ -28,7 +50,7 @@
           </form>
 
           <a
-            href="/{article.id}"
+            href="editArticle/{article.id}"
             role="button"
             class={`text-[--border-focus] border-[--border-focus] border-[1.8px] rounded-sm p-2
               hover:bg-[--button-hover] hover:border-[--button-hover] hover:text-[--title-white] transition delay-75 flex justify-center`}
@@ -44,7 +66,14 @@
 </div>
 
 <div>
-  <h2 class={`text-[--title-white] text-2xl font-bold mb-8`}>New Article</h2>
+  {#if form?.missing}
+    <div class={`flex items-baseline justify-between mb-8`}>
+      <h2 class={`text-[--title-white] text-2xl font-bold`}>New Article</h2>
+      <p class={`text-red-400`}>* Please, complete the fields!</p>
+    </div>
+  {:else}
+    <h2 class={`text-[--title-white] text-2xl font-bold mb-8`}>New Article</h2>
+  {/if}
 
   <form
     action="?/createArticle"
