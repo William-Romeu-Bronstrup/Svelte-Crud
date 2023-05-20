@@ -36,3 +36,10 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+# Init a Svelte project with TailWindCSS
+- npm init svelte@latest my-app
+- cd my-app
+- npm install -D tailwindcss postcss autoprefixer
+- npx tailwindcss init -p
+- Resto das Config [tailwindWithSvelte](https://tailwindcss.com/docs/guides/sveltekit)
